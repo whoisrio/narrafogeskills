@@ -1,0 +1,227 @@
+{
+  "version": "0.1",
+  "note": "主题目录 master（开发侧唯一真相源）。分发规则：visual-brief 拿本目录的索引视图（id/engines/mood/best_for/avoid_for），explainer 拿完整条目（palette/lineConfig/signature）。色值全部来自 frontend-slides bold-template-pack 真实 design.md，未编造；GRID 用 derived 规则避免硬编码。",
+  "engines": {
+    "doodle": "rough.js 手绘：3px 描边、roughness 0.5-0.8、圆角>=16、虚线箭头、手绘卡片",
+    "sticker": "扁平贴纸：硬边、方角或固定圆角、硬偏移阴影、无 roughness"
+  },
+  "themes": [
+    {
+      "id": "playful",
+      "source": "frontend-slides/bold-template-pack/templates/playful",
+      "engines": ["doodle"],
+      "mood": ["warm", "approachable", "indie", "friendly"],
+      "tone": "upbeat, informal, welcoming",
+      "formality": "low",
+      "scheme": "light",
+      "palette": {
+        "BG": "#F0C8A0",
+        "GRID": { "derived": "BG 压暗 8%", "hex": "#E8B88E" },
+        "INK": "#1A1A1A",
+        "PALETTE": ["#F7DEC6", "#F0C8A0", "#E8B88E"],
+        "ACCENT": ["#1A1A1A"]
+      },
+      "lineConfig": {
+        "strokeWidth": 3,
+        "roughness": 0.6,
+        "cornerRadius": "blob 不对称 24-32",
+        "hardShadow": false,
+        "rotation": "±0.5-3deg 手摆"
+      },
+      "signature": ["双层描边偏移（3px 主边 + 6-8px ghost 边）", "organic blob 圆角", "scribbled SVG 涂鸦", "唯一炭黑纪律（无第二品牌色）"],
+      "best_for": ["轻松解释、独立感内容、想显友好不显公司腔的技术片"],
+      "avoid_for": ["需要机构可信度、正式权威的场合"],
+      "notes": "doodle 原生贴合：blob 圆角和手摆旋转就是 rough.js 的母语。"
+    },
+    {
+      "id": "retro-zine",
+      "source": "frontend-slides/bold-template-pack/templates/retro-zine",
+      "engines": ["doodle"],
+      "mood": ["crafted", "lo-fi", "underground", "warm-retro"],
+      "tone": "scrappy, warm, intentional, DIY",
+      "formality": "medium-low",
+      "scheme": "light",
+      "palette": {
+        "BG": "#C8B99A",
+        "GRID": { "derived": "BG 压暗 6%", "hex": "#B8A98A" },
+        "INK": "#1A1A1A",
+        "PALETTE": ["#F4EFE6", "#C8B99A", "#B8A98A"],
+        "ACCENT": ["#008F4D", "#00A85D"]
+      },
+      "lineConfig": {
+        "strokeWidth": 3,
+        "roughness": 0.7,
+        "cornerRadius": 16,
+        "hardShadow": false,
+        "grain": "0.07 颗粒叠层"
+      },
+      "signature": ["纸压纸偏移卡片（绿色 slab 垫在白卡后 12px）", "颗粒叠层 grain overlay", "Caveat 手写强调", "旋转印章/遮蔽胶带"],
+      "best_for": ["复古复盘、riso 手工感、想显'印刷品温度'的技术/研究片"],
+      "avoid_for": ["需要数字原生精致感、现代科技能量感的场合"],
+      "notes": "3px 黑边与 doodle 默认一致，几乎无缝。Caveat 是现成手写体。"
+    },
+    {
+      "id": "scatterbrain",
+      "source": "frontend-slides/bold-template-pack/templates/scatterbrain",
+      "engines": ["doodle", "sticker"],
+      "mood": ["playful", "creative", "warm", "messy-on-purpose", "workshop"],
+      "tone": "informal, warm, expressive, human",
+      "formality": "low",
+      "scheme": "light",
+      "palette": {
+        "BG": "#FAF8F3",
+        "GRID": { "derived": "BG 压暗 5%", "hex": "#F0EBE0" },
+        "INK": "#2D2A26",
+        "PALETTE": ["#FFE066", "#A5D8FF", "#FFC9C9", "#B2F2BB", "#FFCC80"],
+        "ACCENT": ["#C92A2A"]
+      },
+      "lineConfig": {
+        "strokeWidth": 3,
+        "roughness": 0.6,
+        "cornerRadius": 12,
+        "hardShadow": false,
+        "rotation": "便利贴交替 ±3deg",
+        "decor": "图钉/胶带/软阴影"
+      },
+      "signature": ["便利贴（彩色贴纸卡 + 旋转）", "图钉/胶带装饰", "软木板/纸/暖渐变三种底", "高密度散布"],
+      "best_for": ["头脑风暴、workshop、创意流程、想显'进行中的思考'的技术片"],
+      "avoid_for": ["需要精确与机构重量感的场合"],
+      "notes": "doodle 走'便利贴涂鸦'，sticker 走'贴纸簿'，两套都成立。"
+    },
+    {
+      "id": "daisy-days",
+      "source": "frontend-slides/bold-template-pack/templates/daisy-days",
+      "engines": ["doodle", "sticker"],
+      "mood": ["cheerful", "playful", "warm", "sunny", "wholesome"],
+      "tone": "friendly, soft, encouraging, approachable",
+      "formality": "low",
+      "scheme": "light",
+      "palette": {
+        "BG": "#F5F0E6",
+        "GRID": { "derived": "BG 压暗 7%", "hex": "#EAE3D5" },
+        "INK": "#2D2D2D",
+        "PALETTE": ["#7ECDC0", "#F7C8D4", "#FDE68A", "#A8E6CF", "#D4A5E8", "#FFCBA4", "#A8D8F0"],
+        "ACCENT": ["#F8635F"]
+      },
+      "lineConfig": {
+        "strokeWidth": 3,
+        "roughness": 0.5,
+        "cornerRadius": "卡片 20-28，badge pill",
+        "hardShadow": "6px 6px 0 INK",
+        "decor": "手绘雏菊/星星/太阳/云/彩虹"
+      },
+      "signature": ["3px 炭描边包裹每个形状", "硬偏移阴影", "手绘 SVG 装饰角落簇", "高圆角"],
+      "best_for": ["教育、轻松科普、想显'温暖即信息'的技术片"],
+      "avoid_for": ["观众明确期待权威与精度的场合"],
+      "notes": "偏童书/kawaii，机制完全对得上 doodle；严肃技术片慎用。"
+    },
+    {
+      "id": "capsule",
+      "source": "frontend-slides/bold-template-pack/templates/capsule",
+      "engines": ["doodle", "sticker"],
+      "mood": ["playful", "modern", "warm", "fresh", "fun"],
+      "tone": "upbeat, graphic, approachable, cool",
+      "formality": "medium-low",
+      "scheme": "light",
+      "palette": {
+        "BG": "#F5F5F0",
+        "GRID": { "derived": "BG 压暗 5%", "hex": "#EDEDE5" },
+        "INK": "#1E1E1E",
+        "PALETTE": ["#E85D4E", "#C4D94E", "#C5B5E0", "#8BB4F7"],
+        "ACCENT": ["#E85D4E"]
+      },
+      "lineConfig": {
+        "strokeWidth": 2,
+        "roughness": 0.4,
+        "cornerRadius": "全 pill（9999px，大面板 2rem）",
+        "hardShadow": "4/6/8/12px 硬偏移，右下",
+        "decor": "漂浮药丸装饰"
+      },
+      "signature": ["万物药丸形（所有容器 border-radius 9999px）", "2px 描边包裹", "Bodoni 衬线标题 + 糖果色"],
+      "best_for": ["模块化、Y2K 感、想要 pop 清晰度的技术 demo"],
+      "avoid_for": ["需要传统机构重量的场合"],
+      "notes": "收它需 doodle 支持'全 pill'变体——是风格承诺，不是换 PALETTE。"
+    },
+    {
+      "id": "stencil-tablet",
+      "source": "frontend-slides/bold-template-pack/templates/stencil-tablet",
+      "engines": ["doodle", "sticker"],
+      "mood": ["archival", "earthy", "tactile", "considered", "graphic"],
+      "tone": "weighty, considered, tactile, literary",
+      "formality": "medium-high",
+      "scheme": "light",
+      "palette": {
+        "BG": "#E2DCC9",
+        "GRID": { "derived": "BG 压暗 6%", "hex": "#D5CFBA" },
+        "INK": "#0A0A0A",
+        "PALETTE": ["#A06A3C", "#C73B7A", "#EE7A2E", "#2D7E73", "#3F73B7", "#D8A93B", "#6F7A2E"],
+        "ACCENT": ["#C73B7A"]
+      },
+      "lineConfig": {
+        "strokeWidth": 3,
+        "roughness": 0.5,
+        "cornerRadius": "卡片 22-26",
+        "hardShadow": false,
+        "font": "Stardos Stencil（断墨质感）"
+      },
+      "signature": ["stencil 断墨字体撑身份", "巨型数字 160-540px", "大地色色块作排版"],
+      "best_for": ["田野手册感、博物馆/档案向、想显'手册'的技术片"],
+      "avoid_for": ["需要数字原生精致感或 playful pop 的场合"],
+      "notes": "stencil 字体是身份核心，doodle 需引入 stencil 风显示字体才像。"
+    },
+    {
+      "id": "block-frame",
+      "source": "frontend-slides/bold-template-pack/templates/block-frame",
+      "engines": ["sticker"],
+      "mood": ["bold", "playful", "graphic", "fresh"],
+      "tone": "confident, graphic, pop, design-led",
+      "formality": "medium-low",
+      "scheme": "light",
+      "palette": {
+        "BG": "#FFFDF5",
+        "GRID": { "derived": "BG 压暗 4%", "hex": "#F0EADF" },
+        "INK": "#000000",
+        "PALETTE": ["#FE90E8", "#C0F7FE", "#99E885", "#F7CB46", "#FFDC8B"],
+        "ACCENT": ["#000000"]
+      },
+      "lineConfig": {
+        "strokeWidth": 4,
+        "roughness": 0,
+        "cornerRadius": 0,
+        "hardShadow": "8px 8px 0 INK",
+        "tilt": "装饰形状可倾斜破坏网格"
+      },
+      "signature": ["4px 纯黑边", "8px 硬偏移阴影（零模糊）", "方角", "倾斜装饰形状（星/矩形/徽章）"],
+      "best_for": ["pop 图形感、独立 SaaS 发布、想显'当代自信'的技术/金融片"],
+      "avoid_for": ["需要安静机构克制力的场合"],
+      "notes": "⚠ 新粗野方角，与 doodle 圆角手绘相反，只进 sticker。原主题用 Inter 800-900 标题——违反 frontend-slides 自家黑名单，落成片时标题字体换 Archivo Black 或保留 Space Grotesk 标签体系。"
+    },
+    {
+      "id": "creative-mode",
+      "source": "frontend-slides/bold-template-pack/templates/creative-mode",
+      "engines": ["sticker"],
+      "mood": ["creative", "confident", "playful", "design-led"],
+      "tone": "graphic, expressive, modern",
+      "formality": "medium",
+      "scheme": "light",
+      "palette": {
+        "BG": "#EFE9D9",
+        "GRID": { "derived": "cream-2", "hex": "#E4DCC4" },
+        "INK": "#0F0F0F",
+        "PALETTE": ["#1F8A4C", "#F06CA8", "#E85A1F", "#F5C518"],
+        "ACCENT": ["#1F8A4C"]
+      },
+      "lineConfig": {
+        "strokeWidth": 4,
+        "roughness": 0,
+        "cornerRadius": 0,
+        "hardShadow": "24px 24px 0 同色（featured 加 4px INK 边）",
+        "colorBlocking": "每页只用四色中两到三色"
+      },
+      "signature": ["方角扁平色块", "24px 硬偏移阴影（riso 同色偏移）", "Archivo Black 大写极紧", "无渐变无圆角"],
+      "best_for": ["设计主导、创意向、想以品味领先的技术/研究片"],
+      "avoid_for": ["需要机构克制与安静权威的场合"],
+      "notes": "与 doodle 圆角 rough 相反，只进 sticker。比 block-frame 略温和（未用被禁 Inter）。"
+    }
+  ]
+}

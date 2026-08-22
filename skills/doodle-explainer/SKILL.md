@@ -1,0 +1,76 @@
+---
+name: doodle-explainer
+description: 拿 visual-brief-design 的动画设计脚本,用「涂鸦贴纸信息图」风格实现成 Remotion 代码动画(rough.js 手绘 + spring 弹入)。消费导演设计的每拍"呈现什么",按画法规则自由组合落地,保持内容驱动运动(禁装饰晃动)。做全片前先挑关键场景渲染极短 demo 给用户确认效果。当用户要把 visual-brief 的动画设计用涂鸦风实现、或做手绘涂鸦风/手账贴纸风科普动画时,必须使用本 skill。
+---
+
+# Doodle Explainer:涂鸦风实现 visual-brief 的动画设计
+
+拿 visual-brief-design(导演)的动画设计脚本--每拍"呈现什么"(风格无关创意 + 内容驱动运动)--用涂鸦贴纸风格**实现**成 Remotion 代码。
+本 skill 不设计"呈现什么"(导演的活),负责:**用涂鸦画法把导演设计落地成可渲染动画,保持内容驱动运动、禁 PPT 感**。
+
+## 实现原则
+1. **忠实导演设计**:每拍按 visual-brief 的呈现概念实现,不擅自改概念。导演标的场景时长/转场类型/音画偏移以导演为准。
+2. **内容驱动运动,禁装饰晃动**:动效服务于内容(弹入/生长/流动);禁止无意义背景晃动,也禁止物体入场后的无目的上下左右抖动(除非服务表达:错误 shake/情绪强调)。镜头语言(内容驱动的推拉/横移)不在此列。
+3. **anti-PPT**:每 cue 一个变化、信息持续进场;已就位元素保持静止,靠新信息推进维持活力,>3s 无变化即 PPT。
+4. **风格落地**:配色从 theme(BG/GRID/INK/PALETTE/ACCENT,见 `references/theme-catalog.md`);rough.js 固定 seed;画法规则见 `references/style-guide.md`;spring 弹入+转场(滑动/硬切/淡入按导演标)。
+5. **preview-first**:全片实现前,先挑 brief 里的关键场景渲染极短 demo(每场景 1~2s 动效片段)给用户确认主题/布局/配色,认可后才做全片。
+
+## 工作流
+### 第 0.5 步:素材预检(先查再用,需要素材时)
+brief 或场景里出现截图/Logo/复杂插画需求时,先查 `public/` 有没有现成素材(visual-brief 第 0 步标的路径优先)→ 有直接用 → 没有的、且判定为"代码画不动"的,调用 `asset-generation` skill(传 engine=doodle + themeRef)。判断标准/前缀/接入规则都在那边,本 skill 不内嵌。
+
+### 第 1 步:消费 visual-brief 设计 -> 实现规划
+输入:visual-brief 每拍设计(呈现概念 + 焦点控制 + 内容驱动运动 + 相对空间关系)+ 风格=涂鸦。
+
+对每拍:
+- 概念 -> 选结构骨架(`references/templates.md` 的结构模式,参考非菜单)+ 按 `references/style-guide.md` 画法规则自由组合元素
+- **焦点控制**:brief 给 focus/split/pulse/stamp/hold 指令,映射到实现(focus=元素高亮+其他dim/split=flex并排/pulse=scale弹/stamp=✗砸+shake/hold=不动)
+- **布局**:brief 给相对空间关系(左/右/上/下/居中/竖排/横排),explainer 根据元素实际尺寸算精确坐标 + 安全区 + 碰撞检查
+- **出场方式**:brief 给每段 `出场方式`(pop/slide/dissolve/rush-in/typewriter/flip/wipe/stagger/blur-in/draw/scale-up/rotate-in/shimmer/snap),映射到 rough.js 实现——pop=spring 弹入;slide=translate 带方向滑入;dissolve=opacity 0->1+blur;rush-in=高速滑入+轻微 overshoot;typewriter=逐字 clip 揭示;flip=rotateX/Y 翻出;wipe=mask 擦除;stagger=错峰 delay;blur-in=blur 降由虚变实;draw=stroke 生长;scale-up=平滑放大(无 spring);rotate-in=rotate 落定;shimmer=扫光;snap=磁吸归位。默认 pop,但按语义挑,不全程弹入
+- **镜头语言**:brief 给场景 `镜头`(推近/拉远/横移/升降/orbit/whip/parallax/rack),把场景内容包进父 Group 做 scale+translate(2D 模拟相机);若 Seg 标 `维度:3D` 则走 Three.js 真实相机(见下)
+- **表格**:brief 给 `table`(列数×行数+表头),用 Table 组件渲染;表格动效(表头先落/逐行弹入/单元格高亮/列强调/行排序/数字跳动)按 brief 标的做
+- **3D 维度**:brief 对 Seg 标 `维度:3D(Three.js)` 时,该 Seg 走 Three.js/r3f 渲染路径(点云/曲面/粒子流/3D柱/几何体morph/爆炸视图/3D节点图),不用 2D 冒充。若工程尚未建该路径,标注 TODO 并提示用户
+- 时序对齐 cue(含音画偏移:提前-9帧/同步/滞后+6帧)
+
+### 第 2 步:关键场景 demo(preview-first,必做)
+全片代码前,先让用户看到"这个主题+这个布局落到这个内容上长什么样":
+
+- 从 brief 挑 **1~3 个关键场景**:开场钩子(第一个场景)+ 核心转折/收束(如果 brief 标了节奏标签或 key 场景,优先选)
+- 每个场景做**最简版**:只实现该场景的布局 + 主题配色 + 主要元素入场,不做全部 cue 细节
+- 渲染极短片段:`npx remotion render <CompositionId> out/preview-<场景名>.mp4 --frames=<该场景帧范围>`(1~2s 足够)
+- **给用户看 + 说明**:这是哪几个场景、用的什么主题(themeRef)、布局是否符合预期。用户认可后进入全片;不认可则调主题/布局后重出 demo
+- **克制**:demo 是确认"主题/布局/配色"用的,不是全片预演——只做关键场景,不做全片所有 cue 的动效
+
+### 第 3 步:实现自检(轻量)
+忠实导演概念?出场方式/镜头/表格/3D 按 brief 落地?运动内容驱动、物体入场后无无目的晃动(除非服务表达:错误 shake/情绪强调)?无 >3s 静态?配色从 theme?rough.js 固定 seed?
+**轻量自检即可,重校验交给第 6 步的 brief-check。(brief-check 会逐项核出场方式/镜头/表格/3D 是否按 brief 做)**
+
+### 第 4 步:生成全片代码
+风格细节见 `references/style-guide.md`。
+
+### 第 5 步:渲染自检
+渲染关键帧静帧,检查:
+- **布局自检**:提取所有元素 bounding box,程序化检查不重叠 + 在安全区内(80px边距/54px字幕区) + 文字不溢出。不通过则定点修后重验。
+- 用色来自 PALETTE/ACCENT
+- 内容驱动运动到位、无 PPT 静态段
+
+### 第 6 步:brief 忠实度校验(调 brief-check skill)
+渲染自检通过后,调用 `brief-check` skill 对照 visual-brief 分镜逐 Seg 校验(元素完整性/动作匹配/色码贯穿/时序偏移/素材使用)。有不匹配 → 打回修,重渲染再查;全匹配 → 交付。
+
+
+## 与 visual-brief-design 衔接
+visual-brief 出每拍"呈现什么"(风格无关,含场景/布局/节奏/转场/音画偏移);本 skill 拿 brief -> 落地。**不重新切场景、不选主题配色**(themeRef 是 brief 给的),只决定"用涂鸦画法实现它"。brief 若给出精确坐标或具体色值,视为导演越权:坐标重算(安全区+碰撞),颜色取意图、从 theme 落地(见 `references/examples.md`)。
+
+## 文件导航
+| 文件 | 何时读 |
+| --- | --- |
+| `references/theme-catalog.md` | 选主题时(themeRef 解析 + 各主题配色/线条) |
+| `references/style-guide.md` | 写代码前(画法规则 + anti-PPT 运动) |
+| `references/templates.md` | 选结构骨架时(参考非菜单) |
+| `references/examples.md` | 看 brief->代码 推理链 |
+
+## 主题(themeRef)解析
+- **brief 里有 themeRef**(如 `playful + doodle`):查 `references/theme-catalog.md`,取该主题的 BG/GRID/INK/PALETTE/ACCENT + lineConfig 绑进渲染。**不写色值在代码里,一律引用主题变量。**
+- **brief 没写 themeRef**:默认 `playful + doodle`(手账米白),除非用户明确指定。
+- **只吃 engines 含 `doodle` 的主题**:如 brief 给的是 sticker 专属主题(block-frame/creative-mode),提示换用 sticker 引擎 skill,别硬套。
+- 改主题色只改 `theme-catalog.md` 对应条目,再同步各 explainer 副本;不要在 style-guide 里单改色值。

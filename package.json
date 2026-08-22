@@ -1,0 +1,27 @@
+{
+  "name": "docs-to-animation-skills",
+  "version": "1.0.0",
+  "description": "Reusable doodle-style infographic component library for Remotion",
+  "scripts": {
+    "dev": "npx remotion studio",
+    "studio": "npx remotion studio",
+    "build": "npx tsc --noEmit",
+    "stills": "npx remotion still Gallery out/gallery.png --frame=60 && npx remotion still VectorSearch out/scene1.png --frame=90 && npx remotion still VectorSearch out/scene2.png --frame=200 && npx remotion still VectorSearch out/scene3.png --frame=320",
+    "render": "npx remotion render VectorSearch out/vector_search.mp4"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/cli": "^4.0.497",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.497",
+    "roughjs": "^4.6.6",
+    "shiki": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "5.5"
+  }
+}

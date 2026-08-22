@@ -1,0 +1,26 @@
+{
+  "skill_name": "frame-check",
+  "evals": [
+    {
+      "id": 1,
+      "name": "check-single-rendered-video",
+      "prompt": "我刚 render 完 AgentLoop 这个 composition,视频在 out/agent-loop.mp4,帮我检查一下有没有文字重叠或者元素跑出画面的布局问题",
+      "expected_output": "用 skill 自带的 scripts/frame-check.py 检查 out/agent-loop.mp4(若不存在则先 npx remotion render AgentLoop out/agent-loop.mp4),从项目根目录运行,逐帧查布局,产出 out/frame-check-<时间戳>/frame-check-report-<时间戳>.md,报告里标清哪一帧有什么问题或明确说无问题。输出落在项目的 out/,不是 skill 目录。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "discover-and-check-all-videos",
+      "prompt": "out/ 下有几个 mp4,逐个看看布局有没有崩,我要一份报告",
+      "expected_output": "用 skill 自带的 scripts/frame-check.py --dir out 递归发现所有视频并逐个抽帧检查,从项目根目录运行,产出 out/frame-check-<时间戳>/ 下的 Markdown+JSON 报告,每个视频一节,有问题的帧标帧号+时间戳,没问题的视频明确写无问题",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "check-not-yet-rendered-composition",
+      "prompt": "我想验收 DarkBotanicalTrainingCost 这段动画的画面,帮我看看有没有画崩的地方",
+      "expected_output": "先 find out/ 看有没有现成视频;没有就 npx remotion render DarkBotanicalTrainingCost out/<name>.mp4(可只渲前几秒加速),再用 skill 自带的 scripts/frame-check.py 检查(从项目根目录运行),产出 out/frame-check-<时间戳>/ 下的报告",
+      "files": []
+    }
+  ]
+}
