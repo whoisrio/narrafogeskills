@@ -13,6 +13,7 @@ description: 拿 visual-brief-design 的动画设计脚本,用「浅暖现代 Te
 2. **内容驱动运动,禁装饰晃动**:动效服务于内容(节点入场/边绘制/token 流动/段高亮),禁止无意义背景晃动。
 3. **anti-PPT**:节点先于边、边先于 token、回流最后闭合、每 cue 一个变化、>3s 静态即 PPT。
 4. **风格落地**:配色从 theme(C/PATTERN_COLORS);每条边 color 需在 GraphScene arrowColors 注册;Shiki 用 useShikiTokens(delayRender+缓存);字体 IBM Plex Sans/Mono/Noto Serif SC。
+5. **高级动效/转场配方**:导演可能标高级词汇(批量加速错峰 stagger/定格标注/变速/crash-zoom/侧掠/穿窗/虚焦接力/黑场字卡/甩镜/文字两态),实现参数与命门见 `references/motion-recipes.md`,按本风格语汇落地(如圈注用描边高亮)。
 
 ## 工作流
 ### 第 1 步:消费 visual-brief 设计 -> 实现规划
@@ -35,6 +36,7 @@ visual-brief 出每拍"呈现什么"(风格无关);本 skill 拿设计 + 现代 
 | 文件 | 何时读 |
 | --- | --- |
 | `references/style-guide.md` | 写代码前(含 anti-PPT 运动规则) |
+| `references/motion-recipes.md` | 实现高级动效/转场时(参数/曲线/命门) |
 | `references/components.md` | 选组件实现导演概念时 |
 | `references/templates.md` | 选模板时(参考非菜单) |
 | `references/examples.md` | 看实现推理 |

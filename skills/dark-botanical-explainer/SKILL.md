@@ -14,6 +14,7 @@ description: 拿 visual-brief-design 的动画设计脚本,用「暗底暖金」
 2. **内容驱动运动,禁装饰晃动**:实现时每个动效服务于内容(揭幕/滑入/盖章/否定/因果/对比),**禁止无意义背景晃动**(漂移光球/火花/镜头无目的晃动)。运动来自内容,不是装饰。
 3. **anti-PPT**:元素入场后持续环境运动(呼吸/浮动)+ 连线 marching 流动 + 镜头运动(服务于焦点,不是乱晃)+ 每 cue 一个可见变化。任一拍 >3s 无运动变化 = PPT,要拆分或加(内容驱动的)运动。
 4. **风格落地**:配色只从 theme.ts(C/EDITOR/CAPTION/BLUEPRINT);标题衬线 weight 900;数字 CounterUp;用招牌效果(光绘/大字衬线数字/光晕绽放/发光描边/流光 token)。
+5. **高级动效/转场配方**:导演可能标高级词汇(批量加速错峰 stagger/定格标注/变速/crash-zoom/侧掠/穿窗/虚焦接力/黑场字卡/甩镜/文字两态),实现参数与命门见 `references/motion-recipes.md`,按本风格语汇落地(如圈注用光晕圈)。
 
 ## 工作流
 
@@ -56,6 +57,7 @@ visual-brief-design(导演)出每拍"呈现什么"(风格无关);本 skill(实�
 | 文件 | 何时读 |
 | --- | --- |
 | `references/style-guide.md` | 写代码前;含 Anti-PPT 运动铁律 + 视觉丰富度 |
+| `references/motion-recipes.md` | 实现高级动效/转场时(参数/曲线/命门) |
 | `references/components.md` | 选组件实现导演概念时(旁白措辞 -> 构件 + 适合场景) |
 | `references/templates.md` | 选模板实现时(参考模式库,非菜单) |
 | `references/examples.md` | 看实现推理 |
