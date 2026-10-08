@@ -1,5 +1,6 @@
 ---
 name: sticker-explainer
+version: 1.0.0
 description: 拿 visual-brief-design 的动画设计脚本,用「扁平贴纸信息图」风格实现成 Remotion 代码动画(硬边方角 + 硬偏移阴影 + 纯色块,无 roughness)。消费导演设计的每拍"呈现什么",选本风格的模板/组件去落地,保持内容驱动运动(禁装饰晃动)。当用户要把 visual-brief 的动画设计用贴纸/扁平风实现、或用新粗野(neobrutalist)风格做科普动画时,必须使用本 skill。
 ---
 

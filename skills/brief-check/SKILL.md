@@ -1,5 +1,6 @@
 ---
 name: brief-check
+version: 1.0.0
 description: 对照 visual-brief-design 的分镜 brief,检查 explainer 实现(渲染产物 + 代码)是否忠实导演设计。检查维度:元素完整性/动作匹配/色码贯穿/时序与音画偏移/素材使用/出场方式/镜头语言/转场匹配(含高级四式)/表格动效/3D 维度/物体无目的晃动/整画面级冲击预算/文字两态。产出逐 Seg 匹配报告,标清"哪个场景哪个 Seg 哪个元素不匹配 + 怎么不匹配"。当用户渲染完动画想确认"实现是否符合 brief"、提到 brief 校验/忠实度/实现与分镜对照/验收动画是否符合设计时,必须使用本 skill。与 frame-check 互补:frame-check 查布局(画得对不对),本 skill 查内容(画的是不是 brief 要的东西)。
 ---
 

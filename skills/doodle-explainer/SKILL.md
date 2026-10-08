@@ -1,5 +1,6 @@
 ---
 name: doodle-explainer
+version: 1.0.0
 description: 拿 visual-brief-design 的动画设计脚本,用「涂鸦贴纸信息图」风格实现成 Remotion 代码动画(rough.js 手绘 + spring 弹入)。消费导演设计的每拍"呈现什么",按画法规则自由组合落地,保持内容驱动运动(禁装饰晃动)。做全片前先挑关键场景渲染极短 demo 给用户确认效果。当用户要把 visual-brief 的动画设计用涂鸦风实现、或做手绘涂鸦风/手账贴纸风科普动画时,必须使用本 skill。
 ---
 
