@@ -50,7 +50,7 @@
 1. **徽章**(承载关键词/标题):全圆角色块 + 超粗字,ACCENT 色底
 2. **卡片**(承载一组相关图形):圆角粗描边容器,可叠内容
 3. **图形节点**(承载概念本体):基本几何形(矩形、圆、椭圆、圆柱、连线方块)拼出的示意图
-4. **连接线**(表达关系/流向):虚线弧线 + 末端实心小三角
+4. **连接线**(表达关系/流向):虚线弧线 + 末端实心小三角。**一律从 `scripts/rough-shapes.ts` 的 `line(a,b)` / `arrow(a,b)` 生成,两端 `a`/`b` 必须是真实节点坐标(锚定),禁止手写 `d`、禁止手写控制点;rough.js 抖动用 `roughSeed(a,b)` 固定,禁止 Math.random。** 详见 `references/geometry.md`。
 5. **背景网格**(唯一装饰层):BG 色纸面 + GRID 色网格线
 
 画法规则:2D 扁平、大圆角(半径 ≥16px)、纯色填充。
@@ -104,7 +104,7 @@
 
 **高级动效**(定格标注/变速/crash-zoom 急推/侧掠/缩放清晰度)的实现参数与命门统一见 `references/motion-recipes.md`;其中定格标注的圈注用 feTurbulence(scale≈7)手绘抖动椭圆,光效裁进圆角 border-radius——本引擎的差分做法已在配方内标注。
 
-细节:虚线用 `strokeDashoffset` 缓慢流动暗示方向;箭头用 `pathLength` 从起点向终点生长。
+细节:虚线用 `strokeDashoffset` 缓慢流动暗示方向;箭头用 `arrow(a,b)` 生成(返回 `{ shaft, head }`),`pathLength` 从起点向终点生长作用在 `shaft` 上,`head` 为填充三角在末端揭示。禁止手写箭头 `d`。
 禁止任何匀速线性动画。
 **禁止装饰性运动**(呼吸/浮动/光球/火花/镜头无目的晃动)--对讲解无帮助,是噪音。
 
@@ -124,8 +124,9 @@
 - 禁渐变、投影、模糊、3D
 - 禁细线(<2px)、尖角、衬线字体
 - 禁匀速动画、禁元素无故消失、禁一屏静态排版式出场
-- 禁 `Date.now()`/`Math.random()`:伪随机一律固定种子(mulberry32/哈希,seed 从 index 派生),逐帧可复现——粒子聚合/散布、装饰散布、抖动相位全部种子化
+- 禁 `Date.now()`/`Math.random()`:伪随机一律固定种子(mulberry32/哈希,seed 从 index 派生),逐帧可复现——粒子聚合/散布、装饰散布、抖动相位全部种子化。**rough.js 的 seed 必须用 `roughSeed(x,y,...)` 由坐标派生,禁止随机**
 - 禁在 theme 文件之外出现任何硬编码颜色值
+- **禁手写 SVG path 的 `d` 属性**:所有形状/线条/箭头必须从 `scripts/rough-shapes.ts` 生成(`rrect`/`line`/`arrow`/`circle`/`smooth`…),闭合与落点由生成器结构性保证;平滑曲线只走 `smooth()`,禁止手写 `C`/`Q` 控制点。生成后必须过 `node scripts/lint-shapes.mjs <源文件>` 闸门(`line issues: 0`)。详见 `references/geometry.md`
 - 禁装饰性运动(呼吸/浮动/光球/火花/镜头无目的晃动)
 
 ## 交付要求

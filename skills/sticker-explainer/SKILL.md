@@ -1,6 +1,6 @@
 ---
 name: sticker-explainer
-version: 1.0.0
+version: 1.1.0
 description: 拿 visual-brief-design 的动画设计脚本,用「扁平贴纸信息图」风格实现成 Remotion 代码动画(硬边方角 + 硬偏移阴影 + 纯色块,无 roughness)。消费导演设计的每拍"呈现什么",选本风格的模板/组件去落地,保持内容驱动运动(禁装饰晃动)。当用户要把 visual-brief 的动画设计用贴纸/扁平风实现、或用新粗野(neobrutalist)风格做科普动画时,必须使用本 skill。
 ---
 
@@ -65,6 +65,7 @@ brief 或场景里出现截图/Logo/复杂插画需求时,先查 `public/` 有�
 风格细节见 `references/style-guide.md`。
 
 ### 第 5 步:渲染自检
+**先过几何闸门(硬,否则不算交付)**:`node scripts/lint-shapes.mjs <生成的 .tsx 文件或 src/>`,必须输出 `line issues: 0`。任何手写 `d` / 手写贝塞尔会被拦下,定点改成 `scripts/shapes.ts` 调用后重跑。
 渲染关键帧静帧,检查:
 - **布局自检**:提取所有元素 bounding box,程序化检查不重叠 + 在安全区内(80px边距/54px字幕区) + 文字不溢出。不通过则定点修后重验。
 - **有效字高**:量渲染帧上的实际像素(fontSize × 祖先 scale × 透视压缩,不看代码 fontSize),字幕 ≥56px、辅助文字 ≥32px;brief 标 `(纹理)` 的字应明显虚化/降亮度(方法见 `references/motion-recipes.md`)
@@ -85,6 +86,7 @@ visual-brief 出每拍"呈现什么"(风格无关,含场景/布局/节奏/转场
 | --- | --- |
 | `references/theme-catalog.md` | 选主题时(themeRef 解析 + 各主题配色/线条) |
 | `references/style-guide.md` | 写代码前(硬边/方角/硬阴影画法 + anti-PPT 运动) |
+| `references/geometry.md` | 画任何形状/线条前(唯一几何真相源:shapes.ts API + 禁手写 d 的硬规则 + lint 闸门) |
 | `references/templates.md` | 选结构骨架时(参考非菜单) |
 | `references/motion-recipes.md` | 实现高级动效/转场时(stagger 加速错峰/定格标注/变速/crash-zoom/侧掠/穿窗/虚焦接力/黑场字卡/甩镜/缩放清晰度/光效纪律/有效字高/确定性渲染的参数与命门) |
 | `references/examples.md` | 看 brief->代码 推理链 |

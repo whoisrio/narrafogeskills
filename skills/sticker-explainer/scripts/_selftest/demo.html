@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>sticker shapes.ts 防乱线 · 前后对比</title>
+<style>
+  :root{ --bg:#FFFDF5; --ink:#000; --pink:#FE90E8; --blue:#C0F7FE; --green:#99E885; --yellow:#F7CB46; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 system-ui, sans-serif; padding:24px; }
+  h1{ font-size:18px; margin:0 0 4px; }
+  .sub{ color:#666; margin:0 0 20px; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .card{ border:3px solid var(--ink); box-shadow:8px 8px 0 var(--ink); background:#fff; padding:12px; }
+  .card h2{ font-size:14px; margin:0 0 8px; }
+  .card.before h2{ color:#b00; }
+  .card.after h2{ color:#070; }
+  svg{ width:100%; height:280px; display:block; background:var(--bg); }
+  code{ font:12px ui-monospace, monospace; background:#f4f0e6; padding:1px 4px; }
+  .legend{ margin-top:10px; font-size:12px; color:#444; }
+  .dot{ display:inline-block; width:10px; height:10px; border-radius:50%; background:#e00; vertical-align:middle; margin-right:4px; }
+  .ok{ color:#070; font-weight:700; }
+  .bad{ color:#b00; font-weight:700; }
+</style>
+</head>
+<body>
+<h1>sticker engine · 几何生成器前后对比</h1>
+<p class="sub">左:旧方式手写 <code>d</code>(典型乱线) · 右:新 <code>shapes.ts</code> 同一算法生成,端点锚定节点圆心</p>
+<div class="grid">
+  <div class="card before">
+    <h2>旧 · 手写 d(典型乱线)</h2>
+    <svg viewBox="0 0 360 280">
+      <!-- 没封口的盒子:少了一边 -->
+      <path d="M40 30 H300 V190 H40" fill="none" stroke="#000" stroke-width="3"/>
+      <!-- 连接线端点飘在节点外(没落在圆心) -->
+      <circle cx="80" cy="230" r="22" fill="#FE90E8" stroke="#000" stroke-width="3"/>
+      <circle cx="300" cy="225" r="22" fill="#C0F7FE" stroke="#000" stroke-width="3"/>
+      <path d="M96 226 L292 220" fill="none" stroke="#000" stroke-width="3"/>
+      <!-- 贝塞尔过冲:控制点甩出节点外,曲线鼓包/自交 -->
+      <path d="M80 270 C 40 320 340 320 300 270" fill="none" stroke="#000" stroke-width="3"/>
+      <text x="40" y="14" font-size="11" fill="#b00">× 未闭合 / 线飘空 / 过冲</text>
+    </svg>
+    <div class="legend"><span class="bad">✗</span> 矩形少一条边 · 线两端不落点 · 曲线过冲鼓包</div>
+  </div>
+
+  <div class="card after">
+    <h2>新 · shapes.ts 生成</h2>
+    <svg id="after" viewBox="0 0 360 280"></svg>
+    <div class="legend"><span class="ok">✓</span> 强制 <code>Z</code> 闭合 · 线两端锚定节点 · smooth 防过冲</div>
+  </div>
+</div>
+
+<script>
+// ===== shapes.ts 的 JS 移植(算法一致,仅去掉 TS 类型) =====
+const n = v => Number(v.toFixed(2));
+function rrect(x,y,w,h,r=0){
+  const rr=Math.max(0,Math.min(r,w/2,h/2));
+  const X=n(x),Y=n(y),W=n(x+w),H=n(y+h);
+  if(rr<=0.01) return `M${X} ${Y} H${W} V${H} H${X} Z`;
+  const r2=n(rr);
+  return `M${n(x+rr)} ${Y} H${n(x+w-rr)} A${r2} ${r2} 0 0 1 ${W} ${n(y+rr)} V${n(y+h-rr)} A${r2} ${r2} 0 0 1 ${n(x+w-rr)} ${H} H${n(x+rr)} A${r2} ${r2} 0 0 1 ${X} ${n(y+h-rr)} V${n(y+rr)} A${r2} ${r2} 0 0 1 ${n(x+rr)} ${Y} Z`;
+}
+function circle(cx,cy,r){
+  const k=n(r*0.5523);
+  return `M${n(cx-r)} ${n(cy)} C${n(cx-r)} ${n(cy-k)} ${n(cx-k)} ${n(cy-r)} ${n(cx)} ${n(cy-r)} C${n(cx+k)} ${n(cy-r)} ${n(cx+r)} ${n(cy-k)} ${n(cx+r)} ${n(cy)} C${n(cx+r)} ${n(cy+k)} ${n(cx+k)} ${n(cy+r)} ${n(cx)} ${n(cy+r)} C${n(cx-k)} ${n(cy+r)} ${n(cx-r)} ${n(cy+k)} ${n(cx-r)} ${n(cy)} Z`;
+}
+function arrow(a,b,headSize=14){
+  const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1;
+  const ux=dx/len,uy=dy/len,px=-uy,py=ux,wing=0.5;
+  const left={x:b.x-ux*headSize+px*headSize*wing,y:b.y-uy*headSize+py*headSize*wing};
+  const right={x:b.x-ux*headSize-px*headSize*wing,y:b.y-uy*headSize-py*headSize*wing};
+  return { shaft:`M${n(a.x)} ${n(a.y)} L${n(b.x)} ${n(b.y)}`,
+           head:`M${n(b.x)} ${n(b.y)} L${n(left.x)} ${n(left.y)} L${n(right.x)} ${n(right.y)} Z` };
+}
+function smooth(pts){
+  if(pts.length<3) return '';
+  const p=pts,t=0.5; let d=`M${n(p[0].x)} ${n(p[0].y)}`;
+  for(let i=0;i<p.length-1;i++){
+    const p0=p[(i-1+p.length)%p.length],p1=p[i],p2=p[(i+1)%p.length],p3=p[(i+2)%p.length];
+    const c1x=p1.x+((p2.x-p0.x)/6)*t*2, c1y=p1.y+((p2.y-p0.y)/6)*t*2;
+    const c2x=p2.x-((p3.x-p1.x)/6)*t*2, c2y=p2.y-((p3.y-p1.y)/6)*t*2;
+    d+=` C${n(c1x)} ${n(c1y)} ${n(c2x)} ${n(c2y)} ${n(p2.x)} ${n(p2.y)}`;
+  }
+  return d;
+}
+// ===== 渲染"新"一栏:所有形状都来自上面的函数 =====
+const NS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('after');
+function add(tag,attrs){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); svg.appendChild(e); return e; }
+// 节点(锚点)
+const A={x:80,y:230}, B={x:300,y:230};
+add('path',{d:rrect(40,30,260,160,0),fill:'#FE90E8',stroke:'#000','stroke-width':3}); // 闭合矩形
+add('circle',{cx:A.x,cy:A.y,r:22,fill:'#FE90E8',stroke:'#000','stroke-width':3});
+add('circle',{cx:B.x,cy:B.y,r:22,fill:'#C0F7FE',stroke:'#000','stroke-width':3});
+const ar=arrow(A,B,14);
+add('path',{d:ar.shaft,stroke:'#000','stroke-width':3,fill:'none'});   // 线锚定 A→B
+add('path',{d:ar.head,fill:'#000'});                                   // 实心箭头
+// 平滑曲线:控制点全部在节点之间,不过冲
+add('path',{d:smooth([{x:80,y:270},{x:190,y:250},{x:300,y:270}]),stroke:'#000','stroke-width':3,fill:'none'});
+// 端点锚定标记:红点正好压在节点圆心
+[A,B].forEach(p=>add('circle',{cx:p.x,cy:p.y,r:3,fill:'#e00'}));
+add('text',{x:40,y:14, 'font-size':11, fill:'#070'}).textContent='✓ 封闭 / 锚定 / 不过冲';
+</script>
+</body>
+</html>
