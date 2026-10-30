@@ -3,7 +3,8 @@
   "note": "主题目录 master（开发侧唯一真相源）。分发规则：visual-brief 拿本目录的索引视图（id/engines/mood/best_for/avoid_for），explainer 拿完整条目（palette/lineConfig/signature）。色值全部来自 frontend-slides bold-template-pack 真实 design.md，未编造；GRID 用 derived 规则避免硬编码。",
   "engines": {
     "doodle": "rough.js 手绘：3px 描边、roughness 0.5-0.8、圆角>=16、虚线箭头、手绘卡片",
-    "sticker": "扁平贴纸：硬边、方角或固定圆角、硬偏移阴影、无 roughness"
+    "sticker": "扁平贴纸：硬边、方角或固定圆角、硬偏移阴影、无 roughness",
+    "pixel": "像素：5×5 美术像素栅格、整数坐标、有限调色板（≤20 色无 alpha）、逐帧步进、全禁模糊/渐变/圆角/3D"
   },
   "themes": [
     {
@@ -222,6 +223,87 @@
       "best_for": ["设计主导、创意向、想以品味领先的技术/研究片"],
       "avoid_for": ["需要机构克制与安静权威的场合"],
       "notes": "与 doodle 圆角 rough 相反，只进 sticker。比 block-frame 略温和（未用被禁 Inter）。"
+    },
+    {
+      "id": "pico8",
+      "source": "PICO-8 官方 16 色调色板（lexaloffle）",
+      "engines": ["pixel"],
+      "mood": ["machine", "terminal", "retro-computing", "crisp"],
+      "tone": "hard-edged, system-level, 8-bit",
+      "formality": "low-medium",
+      "scheme": "dark",
+      "palette": {
+        "BG": "#1D2B53",
+        "GRID": { "derived": "扫描线取 panel", "hex": "#000000" },
+        "INK": "#FFF1E8",
+        "PALETTE": ["#000000", "#5F574F", "#C2C3C7", "#FF004D", "#FFA300", "#FFEC27", "#00E436", "#29ADFF", "#83769C", "#FF77A8"],
+        "ACCENT": ["#FFEC27"]
+      },
+      "lineConfig": {
+        "strokeWidth": "1 格 = 5 屏幕像素",
+        "roughness": 0,
+        "cornerRadius": 0,
+        "hardShadow": false,
+        "alpha": "禁用，明暗只有阶"
+      },
+      "signature": ["5×5 美术像素栅格（逻辑画布 384×216）", "CRT 扫描线 + 四角加厚", "16×16 字符画 sprite", "抖点代替半透明"],
+      "best_for": ["技术、代码、系统内部、协议栈、复古计算"],
+      "avoid_for": ["柔和情绪题材、需要有机形状或大幅插画的片"],
+      "notes": "pixel 引擎默认主题。色值真相源在 pixel-explainer/kit/themes.ts，本条目只做索引视图。"
+    },
+    {
+      "id": "cga",
+      "source": "IBM CGA 16 色调色板 1（高亮）",
+      "engines": ["pixel"],
+      "mood": ["retro-pc", "hardware", "high-contrast", "loud"],
+      "tone": "blunt, period-accurate, 1980s PC",
+      "formality": "medium-low",
+      "scheme": "dark",
+      "palette": {
+        "BG": "#000000",
+        "GRID": { "derived": "扫描线取 panel", "hex": "#0000AA" },
+        "INK": "#FFFFFF",
+        "PALETTE": ["#0000AA", "#00AAAA", "#AA00AA", "#AA5500", "#55FF55", "#55FFFF", "#FF5555", "#FF55FF", "#FFFF55", "#AAAAAA"],
+        "ACCENT": ["#55FFFF"]
+      },
+      "lineConfig": {
+        "strokeWidth": "1 格 = 5 屏幕像素",
+        "roughness": 0,
+        "cornerRadius": 0,
+        "hardShadow": false,
+        "alpha": "禁用"
+      },
+      "signature": ["四色硬对撞", "蓝底黑窗（CGA 经典配色表情）", "无中间调，只有开与关"],
+      "best_for": ["硬件、老式界面、复古游戏、极硬的技术断言"],
+      "avoid_for": ["长时间讲述（高饱和易累）、需要细腻层次的片"],
+      "notes": "色值真相源在 pixel-explainer/kit/themes.ts。"
+    },
+    {
+      "id": "db16",
+      "source": "DawnBringer 16 调色板",
+      "engines": ["pixel"],
+      "mood": ["archival", "muted", "grounded", "restrained"],
+      "tone": "earthy, low-saturation, documentary",
+      "formality": "medium",
+      "scheme": "dark",
+      "palette": {
+        "BG": "#140C1C",
+        "GRID": { "derived": "扫描线取 panel", "hex": "#30346D" },
+        "INK": "#DEEED6",
+        "PALETTE": ["#30346D", "#4E4A4E", "#757161", "#8595A1", "#D04648", "#D27D2C", "#6DAA2C", "#6DC2CA", "#DAD45E", "#D2AA99"],
+        "ACCENT": ["#DAD45E"]
+      },
+      "lineConfig": {
+        "strokeWidth": "1 格 = 5 屏幕像素",
+        "roughness": 0,
+        "cornerRadius": 0,
+        "hardShadow": false,
+        "alpha": "禁用"
+      },
+      "signature": ["低饱和土色阶", "档案/文档感", "适合长片，不易看累"],
+      "best_for": ["档案、复盘、长片讲述、需要克制的场合"],
+      "avoid_for": ["想要发光屏科技感、需要高能量的片"],
+      "notes": "色值真相源在 pixel-explainer/kit/themes.ts。"
     }
   ]
 }

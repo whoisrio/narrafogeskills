@@ -328,18 +328,20 @@ description: 技术信息可视化导演。把技术旁白(SRT)拆成逐句分�
 | --- | --- | --- | --- |
 | pop (默认) | spring 弹入,轻微 overshoot | 通用引入/新概念 | scale 0->1 + spring; 最稳妥,但别全片只用它 |
 | slide / fly-in | 从某方向(左/右/上/下)滑入 | 元素"来自"某处(输入从下、调用从左) | translate + spring; 方向须与语义一致 |
-| dissolve / fade | 溶解淡入,opacity 0->1 + 轻微 blur | 柔和出现/回忆/次要信息 | opacity + blur(8px->0); 不抢戏 |
+| dissolve / fade | 溶解淡入 | 柔和出现/回忆/次要信息 | opacity 0->1,可带轻微位移;是否用模糊由引擎定,别在 brief 里指定 |
 | rush-in | 疾冲入场:fast scale + 方向位移 + 轻微运动模糊 | 强调"突然杀到"/爆发/冲击 | 短 duration(0.25s) + 方向 translate + 末帧 snap |
 | typewriter | 逐字显现(文本类) | 代码/命令/逐字强调 | 字符 clip 或 Text 逐 char delay |
-| flip | 3D 翻转登场(flip-up/down/left/right) | 卡片翻面/正负切换/揭晓 | rotateX/Y 0->180 配 backface; 注意厚度感 |
+| flip | 翻面登场(flip-up/down/left/right) | 卡片翻面/正负切换/揭晓 | 平面翻转为主;透视翻转要引擎支持 3D,不是每个引擎都能做 |
 | wipe / mask | 擦除揭示(左→右/下→上 clip 推进) | 进度/范围展开/扫描 | clip-path / mask 动画 |
 | stagger | 批量同类元素加速错峰入场(间隔递减+收尾静止 0.5s) | 并列清单/对比项/矩阵格子逐个登场 | 同动效 + 间隔递减(如 8f→3f)+收尾静止 0.5s; 可绑物理隐喻(发牌感); 等间隔读作机械复读,配方见引擎 motion-recipes |
 | blur-in | 由虚变实(对焦) | 从模糊背景中"聚焦"出重点 | blur(12px)->0 + opacity; 常配 focus |
 | draw / stroke | 描边生长(SVG path) | 图形/图标/轮廓先画出来 | pathLength 0->1 |
 | scale-up | 由小放大(无 spring,平滑) | 平静放大/图表展开 | scale 0.6->1 ease |
-| rotate-in | 旋转入场(2D 旋转落定) | 标志/章/圆形元素 | rotate(-180->0) + scale |
-| shimmer / sweep | 扫光后浮现 | 高光/新功能/发布感 | 渐变扫过 + opacity |
+| rotate-in | 旋转入场(2D 旋转落定) | 标志/章/圆形元素 | 小角度旋转落定;幅度由引擎定,别默认半圈 |
+| shimmer / sweep | 扫光后浮现 | 高光/新功能/发布感 | 扫光做法由引擎定;不要指定渐变,多数引擎禁渐变 |
 | snap / magnetic | 磁吸归位(从偏移处弹回正位) | 元素"归位/吸附" | 大偏移 translate + spring 回 0 |
+
+**引擎限制(写 brief 时先看这条)**:上表有几个词的"柔和感"靠模糊和渐变,而 doodle / sticker / pixel 三个引擎在元素层都禁模糊、全部禁渐变。所以 brief 只描述**语义**("从模糊背景里聚焦出重点"、"一道高光扫过"),不要写实现参数(blur 8px、渐变扫过)——参数归引擎的 motion-recipes,写死在 brief 里会被判越权。
 
 **标题动画**:每个场景/段落的标题是**一等设计对象**,不是永远"居中弹入"。标题出场方式应随内容挑:
 - 章节大标题:rush-in 砸下 / flip 翻出 / scale-up 放大落定

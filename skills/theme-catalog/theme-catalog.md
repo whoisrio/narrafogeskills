@@ -15,6 +15,9 @@
 | stencil-tablet | doodle + sticker | 骨白底 + stencil 断墨字体 + 大地色块 | 田野手册感、档案向 | 数字精致或 playful pop |
 | block-frame | sticker | 4px 黑边 + 8px 硬阴影 + 方角 + 粉彩 | pop 图形感、独立 SaaS 发布 | 安静机构克制 |
 | creative-mode | sticker | 奶油底 + 四色 flat + 24px 硬阴影 + 大写 | 设计主导、创意向 | 机构克制与安静权威 |
+| pico8 | pixel | PICO-8 16 色，蓝紫底 + 黄强调，机器味最正 | 技术、代码、系统内部、协议、复古计算 | 柔和情绪题材、需要有机形状 |
+| cga | pixel | CGA 16 色四色硬对撞，最「80 年代 PC」 | 硬件、老式界面、复古游戏、硬断言 | 长时间讲述（高饱和易累） |
+| db16 | pixel | DawnBringer 16，低饱和偏土，档案感 | 档案、复盘、长片讲述 | 想要发光屏科技感 |
 
 ## 选型速记（visual-brief 用）
 
@@ -25,12 +28,18 @@
 - 旁白模块化/参数/并列结构 → `capsule`
 - 旁白手册感/档案/严谨 → `stencil-tablet`
 - 旁白锐利断言/发布/自信 → `block-frame` 或 `creative-mode`（sticker 专属，需要 sticker 引擎）
+- 旁白讲机器/代码/系统/协议/复古计算 → `pico8`（pixel 原生）
+- 旁白讲硬件/老界面/复古 PC → `cga`
+- 旁白档案/长片/需要克制 → `db16`
 
 ## 引擎归属
 
 - `doodle` 专属：playful、retro-zine
 - `doodle + sticker`：scatterbrain、daisy-days、capsule、stencil-tablet
 - `sticker` 专属：block-frame、creative-mode
+- `pixel` 专属：pico8、cga、db16
+
+> 像素主题的色值真相源不在本目录，在 `pixel-explainer/kit/themes.ts`。本目录里的 pixel 条目是索引视图（给 brief 选型用），改色改那边。
 
 ## 使用约定（防止重蹈 style-context-templates.md 孤儿覆辙）
 

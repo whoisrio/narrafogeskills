@@ -13,7 +13,7 @@ description: 拿 visual-brief-design 的动画设计脚本,用「涂鸦贴纸信
 1. **忠实导演设计**:每拍按 visual-brief 的呈现概念实现,不擅自改概念。导演标的场景时长/转场类型/音画偏移以导演为准。
 2. **内容驱动运动,禁装饰晃动**:动效服务于内容(弹入/生长/流动);禁止无意义背景晃动,也禁止物体入场后的无目的上下左右抖动(除非服务表达:错误 shake/情绪强调)。镜头语言(内容驱动的推拉/横移)不在此列。
 3. **anti-PPT**:每 cue 一个变化、信息持续进场;已就位元素保持静止,靠新信息推进维持活力,>3s 无变化即 PPT。
-4. **风格落地**:配色从 theme(BG/GRID/INK/PALETTE/ACCENT,见 `references/theme-catalog.md`);rough.js 固定 seed;画法规则见 `references/style-guide.md`;spring 弹入+转场(基础三式滑动/硬切/淡入 + 高级四式穿窗/虚焦接力/黑场字卡/甩镜,按导演标;配方见 `references/motion-recipes.md`)。
+4. **风格落地**:配色从 theme(BG/GRID/INK/PALETTE/ACCENT,见 `references/theme-catalog.md`);rough.js 固定 seed;画法规则见 `references/style-guide.md`;入场默认 spring 弹入,具体词按 `references/motion-recipes.md`「入场方式词表」;转场三式滑动/硬切/淡入 + 高级四式穿窗/虚焦接力/黑场字卡/甩镜,按导演标。
 5. **preview-first**:全片实现前,先挑 brief 里的关键场景渲染极短 demo(每场景 1~2s 动效片段)给用户确认主题/布局/配色,认可后才做全片。
 
 ## 工作流
@@ -27,7 +27,7 @@ brief 或场景里出现截图/Logo/复杂插画需求时,先查 `public/` 有�
 - 概念 -> 选结构骨架(`references/templates.md` 的结构模式,参考非菜单)+ 按 `references/style-guide.md` 画法规则自由组合元素
 - **焦点控制**:brief 给 focus/split/pulse/stamp/hold/freeze 指令,映射到实现(focus=元素高亮+其他dim/split=flex并排/pulse=scale弹/stamp=✗砸+shake/hold=不动/freeze=定格+圈注,帧号 remap+描边圈注,配方见 `references/motion-recipes.md`)
 - **布局**:brief 给相对空间关系(左/右/上/下/居中/竖排/横排),explainer 根据元素实际尺寸算精确坐标 + 安全区 + 碰撞检查
-- **出场方式**:brief 给每段 `出场方式`(pop/slide/dissolve/rush-in/typewriter/flip/wipe/stagger/blur-in/draw/scale-up/rotate-in/shimmer/snap),映射到 rough.js 实现——pop=spring 弹入;slide=translate 带方向滑入;dissolve=opacity 0->1+blur;rush-in=高速滑入+轻微 overshoot;typewriter=逐字 clip 揭示;flip=rotateX/Y 翻出;wipe=mask 擦除;stagger=批量同类元素**加速错峰**(间隔递减+收尾静止 0.5s,配方见 `references/motion-recipes.md`,等间隔读作机械复读);blur-in=blur 降由虚变实;draw=stroke 生长;scale-up=平滑放大(无 spring);rotate-in=rotate 落定;shimmer=扫光(不群发,一镜最多主角一次,裁进圆角,见 motion-recipes 光效纪律);snap=磁吸归位。默认 pop,但按语义挑,不全程弹入。各词详细参数/曲线/命门见 `references/motion-recipes.md`
+- **出场方式**:brief 给每段的词(pop/slide/dissolve/rush-in/typewriter/flip/wipe/stagger/blur-in/draw/scale-up/rotate-in/shimmer/snap)**不在本文件定义**,按 `references/motion-recipes.md`「入场方式词表」逐词落地,那张表是唯一口径。默认 pop。表里标了「仅限」「禁」的按标注执行——blur-in 只给 `(纹理)` 对象、flip 只做平面 scaleX、shimmer 只能纯色条扫过——并在交付说明里点名改了哪个词。
 - **镜头语言**:brief 给场景 `镜头`(推近/拉远/横移/升降/orbit/whip/parallax/rack/crash-zoom/侧掠),把场景内容包进父 Group 做 scale+translate(2D 模拟相机);crash-zoom=快速冲推+末帧 snap(配方见 motion-recipes);侧掠=透视参数全程常数、内容自身 translateX 滑过固定取景框(物动镜不动,配方见 motion-recipes);若 Seg 标 `维度:3D` 则走 Three.js 真实相机(见下)
 - **文字两态**:brief 标 `(要读)` 的文字,实现保证有效字高(量渲染帧实际像素,字幕 ≥56px/辅助 ≥32px,方法见 motion-recipes);标 `(纹理)` 的文字明显虚化/降亮度,不抢读。未标默认"要读"
 - **表格**:brief 给 `table`(列数×行数+表头),用 Table 组件渲染;表格动效(表头先落/逐行弹入/单元格高亮/列强调/行排序/数字跳动)按 brief 标的做
